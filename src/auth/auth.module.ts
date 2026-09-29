@@ -7,7 +7,7 @@ import { UserModule } from './user/user.module';
 import { RoleModule } from './role/role.module';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import {JwtStrategy} from './strategies/jwt.strategy';
+import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
     imports: [

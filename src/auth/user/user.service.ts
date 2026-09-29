@@ -4,6 +4,8 @@ import { ConfigService } from '@nestjs/config';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
+import { AppLogger } from 'src/common/logger/logger.service';
+
 import { RoleNotFoundException, UserNotFoundException } from '../../common/exceptions';
 import { User } from '../entities/user.entity';
 import { RoleService } from '../role/role.service';
@@ -18,9 +20,11 @@ export class UserService {
         private readonly userRepository: Repository<User>,
         private readonly roleService: RoleService,
         private readonly configService: ConfigService,
+        private readonly logger: AppLogger,
     ) {}
 
     async create(createUserDto: CreateUserDto): Promise<User> {
+        this.logger.log(`Iniciando creación de usuario: ${createUserDto.email}`);
         const { roleId, ...userData } = createUserDto;
         const role = await this.roleService.findOne(roleId);
         if (!role) {
@@ -40,6 +44,7 @@ export class UserService {
         const savedUser = await this.userRepository.save(user);
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { passwordHash: _, ...userWithoutPassword } = savedUser;
+        this.logger.log(`Usuario creado exitosamente: ${savedUser.email}`);
         return userWithoutPassword as User;
     }
 
