@@ -3,6 +3,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 
+import { AppLogger } from '../../common/logger/logger.service';
 import { RoleNotFoundException, UserNotFoundException } from '../../common/exceptions';
 import { Role } from '../entities/role.entity';
 import { User } from '../entities/user.entity';
@@ -30,6 +31,15 @@ describe('UserService', () => {
         findOne: jest.fn(),
     };
 
+    const mockLogger = {
+        log: jest.fn(),
+        error: jest.fn(),
+        warn: jest.fn(),
+        debug: jest.fn(),
+        verbose: jest.fn(),
+        logWithTrace: jest.fn(),
+    };
+
     beforeEach(async () => {
         jest.clearAllMocks();
 
@@ -39,6 +49,7 @@ describe('UserService', () => {
                 { provide: getRepositoryToken(User), useValue: mockRepository },
                 { provide: RoleService, useValue: mockRoleService },
                 { provide: ConfigService, useValue: { get: jest.fn().mockReturnValue('10') } },
+                { provide: AppLogger, useValue: mockLogger },
             ],
         }).compile();
 

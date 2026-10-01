@@ -4,9 +4,8 @@ import { ConfigService } from '@nestjs/config';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
-import { AppLogger } from 'src/common/logger/logger.service';
-
 import { RoleNotFoundException, UserNotFoundException } from '../../common/exceptions';
+import { AppLogger } from '../../common/logger/logger.service';
 import { User } from '../entities/user.entity';
 import { RoleService } from '../role/role.service';
 
