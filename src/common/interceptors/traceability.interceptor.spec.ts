@@ -33,8 +33,8 @@ describe('TraceabilityInterceptor', () => {
         const request: RequestMock = {
             headers: { 'x-correlation-id': 'test-cid-12345' },
             method: 'GET',
-            originalUrl: '/user',
-            url: '/user',
+            originalUrl: '/users',
+            url: '/users',
         };
         const response: Partial<Response> = {
             statusCode: HttpStatus.OK,
@@ -54,7 +54,7 @@ describe('TraceabilityInterceptor', () => {
         expect(response.setHeader).toHaveBeenCalledWith('x-correlation-id', 'test-cid-12345');
         expect(logger.traceRequest).toHaveBeenCalledWith(
             'GET',
-            '/user',
+            '/users',
             HttpStatus.OK,
             expect.any(Number),
             'test-cid-12345',
@@ -66,8 +66,8 @@ describe('TraceabilityInterceptor', () => {
         const request: RequestMock = {
             headers: {},
             method: 'GET',
-            originalUrl: '/user',
-            url: '/user',
+            originalUrl: '/users',
+            url: '/users',
         };
         const response: Partial<Response> = {
             statusCode: HttpStatus.OK,
@@ -90,8 +90,8 @@ describe('TraceabilityInterceptor', () => {
         const request: RequestMock = {
             headers: { 'x-correlation-id': 'error-cid' },
             method: 'GET',
-            originalUrl: '/user/999',
-            url: '/user/999',
+            originalUrl: '/users/999',
+            url: '/users/999',
         };
         const response: Partial<Response> = {
             statusCode: HttpStatus.OK,
@@ -110,7 +110,7 @@ describe('TraceabilityInterceptor', () => {
 
         expect(logger.traceRequest).toHaveBeenCalledWith(
             'GET',
-            '/user/999',
+            '/users/999',
             HttpStatus.NOT_FOUND,
             expect.any(Number),
             'error-cid',
